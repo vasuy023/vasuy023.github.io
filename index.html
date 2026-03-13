@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saubhagya Yadav | Full Stack Developer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;600&family=JetBrains+Mono&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['DM Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: '#050505',
+                        light: '#f5f5f5',
+                        accent: '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.39/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #f5f5f5;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            cursor: none; /* Custom cursor */
+        }
+
+        /* Lenis Native CSS Reset */
+        html.lenis {
+          height: auto;
+        }
+        .lenis.lenis-smooth {
+          scroll-behavior: auto;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+          overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+          overflow: hidden;
+        }
+        .lenis.lenis-scrolling iframe {
+          pointer-events: none;
+        }
+
+        /* 3D Canvas Background */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Outline Typography */
+        .text-outline {
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.4);
+            color: transparent;
+            transition: all 0.5s ease;
+        }
+        
+        .text-outline:hover {
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 1);
+            color: rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
+        }
+        
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        a:hover ~ .cursor-outline, button:hover ~ .cursor-outline, .hover-target:hover ~ .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Glassmorphism for Navbar */
+        .glass-nav {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Project Card Tilt */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+        .tilt-card-inner {
+            transform: translateZ(30px);
+        }
+
+        /* Floating Image on List Hover */
+        .hover-reveal-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 300px;
+            height: 400px;
+            pointer-events: none;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 50;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        
+        .hover-reveal-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .list-item:hover .hover-reveal-img {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: #050505;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
+
+    <!-- Preloader -->
+    <div class="loader" id="loader">
+        <div class="text-xl tracking-widest overflow-hidden">
+            <span class="inline-block loader-text">INITIALIZING_EXPERIENCE</span>
+        </div>
+    </div>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- 3D Background Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Floating Navigation -->
+    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 glass-nav rounded-full px-6 py-3 flex items-center gap-8 text-sm font-display tracking-wide reveal-nav">
+        <div class="flex items-center gap-2 mr-4">
+            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span class="opacity-80">Available</span>
+        </div>
+        <a href="#about" class="hover:text-gray-300 transition-colors">About</a>
+        <a href="#skills" class="hover:text-gray-300 transition-colors">Skills</a>
+        <a href="#projects" class="hover:text-gray-300 transition-colors">Work</a>
+        <a href="#contact" class="bg-white text-black px-4 py-2 rounded-full font-medium hover:bg-gray-200 transition-colors ml-4 flex items-center gap-2">
+            Let's Talk <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+    </nav>
+
+    <main class="relative z-10 w-full">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex flex-col justify-center items-center relative px-4 pt-24 pb-12">
+            <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative hero-wrapper">
+                
+                <!-- Left Side: Photo -->
+                <div class="w-full md:w-1/2 flex justify-center md:justify-start z-10 hero-image opacity-0 scale-95">
+                    <img src="pic.png" alt="Saubhagya Yadav" class="w-[280px] md:w-[450px] h-[350px] md:h-[550px] object-cover grayscale opacity-80 rounded-lg" style="-webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); mask-image: linear-gradient(to bottom, black 80%, transparent 100%);">
+                </div>
+
+                <!-- Right Side: Name & Bio -->
+                <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left z-20">
+                    <h2 class="hero-sub font-mono text-gray-400 mb-6 tracking-widest uppercase text-sm md:text-base">Aspiring Full Stack Developer</h2>
+                    
+                    <h1 class="font-display font-black text-[15vw] md:text-[7vw] leading-none tracking-tighter w-full">
+                        <span class="block text-outline cursor-default min-h-[1.1em]" id="typewriter-first"></span>
+                        <span class="block text-white cursor-default min-h-[1.1em] flex items-center justify-center md:justify-start">
+                            <span id="typewriter-last"></span><span class="animate-[pulse_1s_ease-in-out_infinite] font-light ml-2">_</span>
+                        </span>
+                    </h1>
+                    
+                    <p class="hero-desc mt-8 max-w-md text-gray-400 font-sans text-sm md:text-base leading-relaxed">
+                        Passionate about building modern web experiences using the latest web technologies. I learn by building and improving every single day.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="hero-scroll absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 z-20">
+                <span class="text-xs font-mono uppercase tracking-widest">Scroll</span>
+                <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-32 px-4 md:px-12 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+                <div class="md:col-span-5 reveal-up">
+                    <h2 class="text-xs font-mono text-gray-500 tracking-widest uppercase mb-4">/ About Me</h2>
+                    <h3 class="font-serif text-4xl md:text-6xl leading-tight text-white">
+                        Crafting <br> <span class="italic text-gray-400">digital experiences</span>
+                    </h3>
+                </div>
+                <div class="md:col-span-7 flex flex-col gap-6 font-sans text-gray-300 text-lg md:text-xl leading-relaxed reveal-up" style="transition-delay: 0.1s;">
+                    <p>
+                        I am Saubhagya Yadav, an aspiring Full Stack Developer currently navigating the dynamic landscape of modern web technologies. My journey is fueled by an insatiable curiosity for how things work on the web.
+                    </p>
+                    <p>
+                        Specializing in <span class="text-white font-medium">HTML, CSS, JavaScript, and React.js</span>, I am continuously refining my skills through hands-on experimentation. My ultimate focus is on mastering frontend architecture before scaling to full-scale modern web applications.
+                    </p>
+                    <div class="pt-6">
+                        <a href="https://x.com/yrr_vasu_" target="_blank" class="inline-flex items-center gap-2 text-sm font-mono border border-gray-700 hover:border-white rounded-full px-6 py-3 transition-all">
+                            Follow my journey on X <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-32 bg-zinc-900/20 border-y border-white/5 relative overflow-hidden">
+            <!-- Decorative blur -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-[120px] pointer-events-none"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 md:px-12 relative z-10">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal-up">
+                    <div>
+                        <h2 class="text-xs font-mono text-gray-500 tracking-widest uppercase mb-4">/ Arsenal</h2>
+                        <h3 class="font-display text-4xl md:text-5xl font-bold">Tech Stack</h3>
+                    </div>
+                    <p class="text-gray-400 font-mono text-sm max-w-xs mt-4 md:mt-0 text-right">Constantly evolving toolkit for building robust interfaces.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <!-- Skill Card -->
+                    <div class="group relative bg-zinc-900/50 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/5 transition-all duration-500 tilt-card reveal-up">
+                        <div class="tilt-card-inner flex flex-col items-center">
+                            <i data-lucide="file-code-2" class="w-10 h-10 text-gray-400 group-hover:text-white transition-colors animate-float" style="animation-delay: 0s;"></i>
+                            <span class="font-mono text-sm mt-2">HTML</span>
+                        </div>
+                    </div>
+                    <!-- Skill Card -->
+                    <div class="group relative bg-zinc-900/50 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/5 transition-all duration-500 tilt-card reveal-up" style="transition-delay: 0.1s;">
+                        <div class="tilt-card-inner flex flex-col items-center">
+                            <i data-lucide="palette" class="w-10 h-10 text-gray-400 group-hover:text-white transition-colors animate-float" style="animation-delay: 0.2s;"></i>
+                            <span class="font-mono text-sm mt-2">CSS</span>
+                        </div>
+                    </div>
+                    <!-- Skill Card -->
+                    <div class="group relative bg-zinc-900/50 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/5 transition-all duration-500 tilt-card reveal-up" style="transition-delay: 0.2s;">
+                        <div class="tilt-card-inner flex flex-col items-center">
+                            <i data-lucide="file-json-2" class="w-10 h-10 text-gray-400 group-hover:text-[#F7DF1E] transition-colors animate-float" style="animation-delay: 0.4s;"></i>
+                            <span class="font-mono text-sm mt-2">JavaScript</span>
+                        </div>
+                    </div>
+                    <!-- Skill Card -->
+                    <div class="group relative bg-zinc-900/50 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/5 transition-all duration-500 tilt-card reveal-up" style="transition-delay: 0.3s;">
+                        <div class="tilt-card-inner flex flex-col items-center">
+                            <i data-lucide="blocks" class="w-10 h-10 text-gray-400 group-hover:text-[#61DAFB] transition-colors animate-float" style="animation-delay: 0.6s;"></i>
+                            <span class="font-mono text-sm mt-2">React.js</span>
+                        </div>
+                    </div>
+                    <!-- Skill Card -->
+                    <div class="group relative bg-zinc-900/50 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:bg-white/5 transition-all duration-500 tilt-card reveal-up" style="transition-delay: 0.4s;">
+                        <div class="tilt-card-inner flex flex-col items-center">
+                            <i data-lucide="git-branch" class="w-10 h-10 text-gray-400 group-hover:text-[#F05032] transition-colors animate-float" style="animation-delay: 0.8s;"></i>
+                            <span class="font-mono text-sm mt-2">Git / GitHub</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects / Selected Work -->
+        <section id="projects" class="py-32 px-4 md:px-12 max-w-7xl mx-auto">
+            <div class="mb-16 reveal-up">
+                <h2 class="text-xs font-mono text-gray-500 tracking-widest uppercase mb-4">/ Selected Work</h2>
+                <h3 class="font-display text-4xl md:text-5xl font-bold">Featured Projects</h3>
+            </div>
+
+            <div class="flex flex-col gap-24">
+                <!-- Project 1: SecureGuard -->
+                <div class="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center reveal-up">
+                    <div class="lg:col-span-7 overflow-hidden rounded-2xl relative tilt-card">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all z-10 duration-500"></div>
+                        <div class="aspect-video w-full bg-zinc-800 flex items-center justify-center relative overflow-hidden project-image-container">
+                            
+                            <!-- Video for SecureGuard -->
+                            <video src="SG.mov" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out z-0"></video>
+                            
+                            <!-- Dark overlay to ensure text visibility and cinematic look -->
+                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500 z-10"></div>
+                            
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5 flex flex-col gap-4 project-text">
+                        <span class="text-xs font-mono border border-white/20 rounded-full px-3 py-1 w-fit">FastAPI / AI / Chrome Extension</span>
+                        <h4 class="text-3xl font-display font-semibold mt-2">SecureGuard</h4>
+                        <p class="text-gray-400 text-sm md:text-base leading-relaxed">
+                            AI‑Powered Multi‑Modal Cyber Safety & Behavioral Intelligence System. Detects cyberbullying, toxic escalation, and harassment using Offline AI Models and a Behavioral Risk Engine before digital harm escalates.
+                        </p>
+                        <a href="https://github.com/vasuy023/secureguard" target="_blank" class="mt-4 inline-flex items-center gap-2 text-white hover:text-gray-300 transition-colors w-fit pb-1 border-b border-white/30 hover:border-white">
+                            View Source <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Stack Lens -->
+                <div class="group grid grid-cols-1 lg:grid-cols-12 gap-8 items-center reveal-up">
+                    <div class="lg:col-span-7 lg:order-last overflow-hidden rounded-2xl relative tilt-card">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-all z-10 duration-500"></div>
+                        <div class="aspect-video w-full bg-zinc-800 flex items-center justify-center relative overflow-hidden project-image-container">
+                            
+                            <!-- Video for Stack Lens -->
+                            <video src="ST.MOV" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-110 transition-transform duration-700 ease-out z-0"></video>
+                            
+                            <!-- Dark overlay to ensure text visibility and cinematic look -->
+                            <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500 z-10"></div>
+                            
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5 flex flex-col gap-4 lg:text-right lg:items-end project-text">
+                        <span class="text-xs font-mono border border-emerald-500/30 text-emerald-400 rounded-full px-3 py-1 w-fit">Coming Soon</span>
+                        <h4 class="text-3xl font-display font-semibold mt-2 text-gray-500 group-hover:text-white transition-colors duration-300">Stack Lens</h4>
+                        <p class="text-gray-500 text-sm md:text-base leading-relaxed">
+                            An upcoming visionary tool currently in active development. Stack Lens will introduce powerful new ways to analyze and interact with full-stack architectures. Stay tuned.
+                        </p>
+                        <span class="mt-4 inline-flex items-center gap-2 text-gray-600 w-fit pb-1 cursor-not-allowed">
+                            Repository Locked <i data-lucide="lock" class="w-4 h-4"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-20 flex justify-center reveal-up">
+                <a href="https://github.com/vasuy023" target="_blank" class="px-8 py-4 rounded-full border border-white/20 hover:bg-white hover:text-black transition-all font-medium flex items-center gap-2">
+                    View All Work on GitHub <i data-lucide="github" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- Learning Journey (Hover Reveal List) -->
+        <section id="journey" class="py-32 bg-white text-black relative z-20 rounded-t-[3rem]">
+            <div class="max-w-7xl mx-auto px-4 md:px-12">
+                <div class="mb-16 reveal-up">
+                    <h2 class="text-xs font-mono text-gray-500 tracking-widest uppercase mb-4">/ Timeline</h2>
+                    <h3 class="font-display text-4xl md:text-5xl font-bold">The Learning Journey</h3>
+                </div>
+
+                <div class="border-t border-black/10 flex flex-col w-full relative">
+                    <!-- Global hovering image for this list -->
+                    <div class="hover-reveal-img" id="reveal-img-container">
+                        <!-- We use generic gradient or placeholder since external images aren't provided -->
+                        <div id="reveal-img-inner" class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center font-mono text-4xl text-white/50">
+                            IMG
+                        </div>
+                    </div>
+
+                    <!-- List Item -->
+                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-blue-400 to-blue-600">
+                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Mastering React</h4>
+                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    </div>
+                    <!-- List Item -->
+                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-yellow-400 to-orange-500">
+                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Advanced JavaScript</h4>
+                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    </div>
+                    <!-- List Item -->
+                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-purple-400 to-pink-500">
+                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">UI/UX & CSS Mastery</h4>
+                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    </div>
+                    <!-- List Item -->
+                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-green-400 to-emerald-600">
+                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Building in Public (X)</h4>
+                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social & Contact Section -->
+        <section id="contact" class="min-h-screen flex flex-col justify-center items-center py-32 px-4 relative z-10 bg-[#050505]">
+            <div class="text-center max-w-4xl mx-auto flex flex-col items-center reveal-up">
+                <div class="flex items-center gap-2 mb-8 bg-zinc-900/80 px-4 py-2 rounded-full border border-white/10">
+                    <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                    <span class="text-sm font-mono text-gray-300">Available for New Projects</span>
+                </div>
+                
+                <h2 class="text-5xl md:text-8xl font-display font-black leading-tight mb-8">
+                    HAVE A PROJECT<br>
+                    <span class="text-outline">IN MIND?</span>
+                </h2>
+                
+                <p class="text-gray-400 max-w-lg mb-12 text-lg">
+                    Together, we can create something clear, impactful, and performance-driven. Let's collaborate.
+                </p>
+                
+                <a href="mailto:vasuy023@gmail.com" class="relative group overflow-hidden bg-white text-black px-10 py-5 rounded-full font-bold text-lg hover-target">
+                    <span class="relative z-10 flex items-center gap-2">
+                        vasuy023@gmail.com <i data-lucide="mail" class="w-5 h-5"></i>
+                    </span>
+                    <div class="absolute inset-0 bg-gray-200 transform scale-y-0 group-hover:scale-y-100 transition-transform origin-bottom duration-300"></div>
+                </a>
+
+                <!-- Socials -->
+                <div class="flex gap-8 mt-24">
+                    <a href="https://github.com/vasuy023" target="_blank" class="text-gray-500 hover:text-white transition-colors flex flex-col items-center gap-2 group">
+                        <i data-lucide="github" class="w-6 h-6 group-hover:-translate-y-1 transition-transform"></i>
+                        <span class="text-xs font-mono uppercase tracking-widest">GitHub</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/saubhagya-yadav-236128262/" target="_blank" class="text-gray-500 hover:text-[#0A66C2] transition-colors flex flex-col items-center gap-2 group">
+                        <i data-lucide="linkedin" class="w-6 h-6 group-hover:-translate-y-1 transition-transform"></i>
+                        <span class="text-xs font-mono uppercase tracking-widest">LinkedIn</span>
+                    </a>
+                    <a href="https://x.com/yrr_vasu_" target="_blank" class="text-gray-500 hover:text-white transition-colors flex flex-col items-center gap-2 group">
+                        <i data-lucide="twitter" class="w-6 h-6 group-hover:-translate-y-1 transition-transform"></i>
+                        <span class="text-xs font-mono uppercase tracking-widest">X (Twitter)</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 border-t border-white/5 bg-[#050505] text-center text-xs font-mono text-gray-600 z-10 relative reveal-up">
+            <p>&copy; <span id="year"></span> Saubhagya Yadav. All rights reserved.</p>
+        </footer>
+
+    </main>
+
+    <!-- Scripts -->
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+
+    <script>
+        // Initialize Lenis Smooth Scrolling
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        // Integrate Lenis with GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        // Initialize Icons
+        lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Register ScrollTrigger & TextPlugin
+        gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+        // --- Loader Animation & Typewriter Effect ---
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const tl = gsap.timeline();
+            
+            tl.to('.loader-text', { y: '-100%', opacity: 0, duration: 0.8, ease: "power4.inOut", delay: 0.5 })
+              .to(loader, { height: 0, duration: 1, ease: "power4.inOut" })
+              .to('.hero-image', { opacity: 1, scale: 1, duration: 1.5, ease: "power3.out" }, "-=0.2")
+              // Typewriter effect added here using TextPlugin
+              .to('#typewriter-first', { text: "SAUBHAGYA", duration: 0.8, ease: "none" }, "-=0.8")
+              .to('#typewriter-last', { text: "YADAV", duration: 0.6, ease: "none" })
+              .from('.hero-sub', { opacity: 0, y: 20, duration: 1 }, "-=0.8")
+              .from('.hero-desc', { opacity: 0, y: 20, duration: 1 }, "-=0.8")
+              .from('.reveal-nav', { y: -50, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+              .set(loader, { display: 'none' });
+        });
+
+        // --- Hero Parallax & Fade on Scroll ---
+        const heroTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // As user scrolls down, elements move and fade
+        heroTl.to('.hero-image', { y: 150, scale: 0.8, opacity: 0, ease: "none" }, 0)
+              .to('.hero-title', { y: -100, opacity: 0, ease: "none" }, 0)
+              .to('.hero-sub', { y: -50, opacity: 0, ease: "none" }, 0)
+              .to('.hero-desc', { y: -30, opacity: 0, ease: "none" }, 0)
+              .to('.hero-scroll', { opacity: 0, ease: "none" }, 0);
+
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay using GSAP for smoothness
+            gsap.to(cursorOutline, {
+                x: posX,
+                y: posY,
+                duration: 0.15,
+                ease: "power2.out"
+            });
+        });
+
+        // --- Three.js Cinematic Dark Particle Background ---
+        const initThreeJS = () => {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050505, 0.001); // Deep dark fog
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 1500;
+            const posArray = new Float32Array(particlesCount * 3);
+
+            for(let i = 0; i < particlesCount * 3; i++) {
+                // Spread particles in a wide area
+                posArray[i] = (Math.random() - 0.5) * 100;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            // Small, slightly glowing white points
+            const material = new THREE.PointsMaterial({
+                size: 0.05,
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, material);
+            scene.add(particlesMesh);
+
+            // Mouse interaction for particles
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) - 0.5;
+                mouseY = (event.clientY / window.innerHeight) - 0.5;
+            });
+
+            // Animation Loop
+            const clock = new THREE.Clock();
+
+            const animate = () => {
+                const elapsedTime = clock.getElapsedTime();
+
+                // Slow rotation
+                particlesMesh.rotation.y = elapsedTime * 0.05;
+                particlesMesh.rotation.x = elapsedTime * 0.02;
+
+                // Subtle mouse parallax
+                camera.position.x += (mouseX * 5 - camera.position.x) * 0.05;
+                camera.position.y += (-mouseY * 5 - camera.position.y) * 0.05;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+                requestAnimationFrame(animate);
+            };
+
+            animate();
+
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+        initThreeJS();
+
+        // --- Upgraded GSAP Scroll Animations ---
+        // Enhanced Scroll Reveals with scaling
+        gsap.utils.toArray('.reveal-up').forEach(element => {
+            gsap.fromTo(element, 
+                { y: 60, opacity: 0, scale: 0.98 },
+                {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // --- Tilt Card Logic (Vanilla JS for performance) ---
+        const tiltCards = document.querySelectorAll('.tilt-card');
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; // Max rotation 10deg
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+                card.style.transition = 'transform 0.5s ease';
+            });
+            
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'none'; // remove transition on enter for snappy follow
+            });
+        });
+
+        // --- List Hover Reveal Image Logic ---
+        const listItems = document.querySelectorAll('.list-item');
+        const revealImgContainer = document.getElementById('reveal-img-container');
+        const revealImgInner = document.getElementById('reveal-img-inner');
+
+        // Update position of the hovering image container
+        document.addEventListener('mousemove', (e) => {
+            if(revealImgContainer.style.opacity == 1) {
+                // Using GSAP for smooth follow
+                gsap.to(revealImgContainer, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.3,
+                    ease: "power2.out"
+                });
+            } else {
+                // Instantly snap to position when hidden so it scales up from the cursor
+                gsap.set(revealImgContainer, { x: e.clientX, y: e.clientY });
+            }
+        });
+
+        listItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const gradient = item.getAttribute('data-color');
+                revealImgInner.className = `w-full h-full bg-gradient-to-br ${gradient} flex items-center justify-center font-mono text-xl text-white font-bold`;
+                revealImgInner.innerHTML = item.querySelector('h4').innerText.split(' ')[0]; // Show first word as placeholder
+            });
+        });
+
+    </script>
+</body>
+</html>
