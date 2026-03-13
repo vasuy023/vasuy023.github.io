@@ -208,42 +208,44 @@
     <div id="canvas-container"></div>
 
     <!-- Floating Navigation -->
-    <nav class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 glass-nav rounded-full px-6 py-3 flex items-center gap-8 text-sm font-display tracking-wide reveal-nav">
-        <div class="flex items-center gap-2 mr-4">
-            <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-            <span class="opacity-80">Available</span>
+    <nav class="fixed top-4 md:top-6 left-1/2 transform -translate-x-1/2 z-50 glass-nav rounded-full px-4 md:px-6 py-2.5 md:py-3 flex items-center gap-4 md:gap-8 text-xs md:text-sm font-display tracking-wide reveal-nav w-[95%] md:w-auto justify-between md:justify-center max-w-[450px] md:max-w-none">
+        <div class="flex items-center gap-2 md:mr-4">
+            <div class="w-2 h-2 shrink-0 rounded-full bg-green-500 animate-pulse"></div>
+            <span class="opacity-80 hidden md:inline-block whitespace-nowrap">Available</span>
         </div>
-        <a href="#about" class="hover:text-gray-300 transition-colors">About</a>
-        <a href="#skills" class="hover:text-gray-300 transition-colors">Skills</a>
-        <a href="#projects" class="hover:text-gray-300 transition-colors">Work</a>
-        <a href="#contact" class="bg-white text-black px-4 py-2 rounded-full font-medium hover:bg-gray-200 transition-colors ml-4 flex items-center gap-2">
-            Let's Talk <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        <div class="flex items-center gap-3 md:gap-8">
+            <a href="#about" class="hover:text-gray-300 transition-colors">About</a>
+            <a href="#skills" class="hover:text-gray-300 transition-colors">Skills</a>
+            <a href="#projects" class="hover:text-gray-300 transition-colors">Work</a>
+        </div>
+        <a href="#contact" class="bg-white text-black px-3 py-1.5 md:px-4 md:py-2 rounded-full font-medium hover:bg-gray-200 transition-colors md:ml-4 flex items-center gap-1 md:gap-2 shrink-0">
+            <span class="hidden sm:inline">Let's Talk</span><span class="sm:hidden">Talk</span> <i data-lucide="arrow-up-right" class="w-3 h-3 md:w-4 md:h-4"></i>
         </a>
     </nav>
 
     <main class="relative z-10 w-full">
         
         <!-- Hero Section -->
-        <section id="hero" class="min-h-screen flex flex-col justify-center items-center relative px-4 pt-24 pb-12">
-            <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12 relative hero-wrapper">
+        <section id="hero" class="min-h-[100svh] flex flex-col justify-center items-center relative px-4 pt-28 pb-16 md:pt-24 md:pb-12">
+            <div class="w-full max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 relative hero-wrapper mt-4 md:mt-0">
                 
                 <!-- Left Side: Photo -->
                 <div class="w-full md:w-1/2 flex justify-center md:justify-start z-10 hero-image opacity-0 scale-95">
-                    <img src="pic.png" alt="Saubhagya Yadav" class="w-[280px] md:w-[450px] h-[350px] md:h-[550px] object-cover grayscale opacity-80 rounded-lg" style="-webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); mask-image: linear-gradient(to bottom, black 80%, transparent 100%);">
+                    <img src="pic.png" alt="Saubhagya Yadav" class="w-[240px] sm:w-[280px] md:w-[450px] h-[300px] sm:h-[350px] md:h-[550px] object-cover grayscale opacity-80 rounded-lg" style="-webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%); mask-image: linear-gradient(to bottom, black 80%, transparent 100%);">
                 </div>
 
                 <!-- Right Side: Name & Bio -->
                 <div class="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left z-20">
-                    <h2 class="hero-sub font-mono text-gray-400 mb-6 tracking-widest uppercase text-sm md:text-base">Aspiring Full Stack Developer</h2>
+                    <h2 class="hero-sub font-mono text-gray-400 mb-4 md:mb-6 tracking-widest uppercase text-[10px] sm:text-xs md:text-base">Aspiring Full Stack Developer</h2>
                     
-                    <h1 class="font-display font-black text-[15vw] md:text-[7vw] leading-none tracking-tighter w-full">
-                        <span class="block text-outline cursor-default min-h-[1.1em]" id="typewriter-first"></span>
-                        <span class="block text-white cursor-default min-h-[1.1em] flex items-center justify-center md:justify-start">
-                            <span id="typewriter-last"></span><span class="animate-[pulse_1s_ease-in-out_infinite] font-light ml-2">_</span>
+                    <h1 class="font-display font-black text-[11vw] md:text-[7vw] leading-none tracking-tighter w-full">
+                        <span class="block text-outline cursor-default min-h-[1.1em] whitespace-nowrap" id="typewriter-first"></span>
+                        <span class="block text-white cursor-default min-h-[1.1em] flex items-center justify-center md:justify-start whitespace-nowrap">
+                            <span id="typewriter-last"></span><span class="animate-[pulse_1s_ease-in-out_infinite] font-light ml-1 md:ml-2">_</span>
                         </span>
                     </h1>
                     
-                    <p class="hero-desc mt-8 max-w-md text-gray-400 font-sans text-sm md:text-base leading-relaxed">
+                    <p class="hero-desc mt-6 md:mt-8 max-w-md text-gray-400 font-sans text-xs sm:text-sm md:text-base leading-relaxed px-4 md:px-0">
                         Passionate about building modern web experiences using the latest web technologies. I learn by building and improving every single day.
                     </p>
                 </div>
@@ -251,7 +253,7 @@
             </div>
 
             <!-- Scroll Indicator -->
-            <div class="hero-scroll absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 z-20">
+            <div class="hero-scroll absolute bottom-4 md:bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 opacity-50 z-20">
                 <span class="text-xs font-mono uppercase tracking-widest">Scroll</span>
                 <div class="w-[1px] h-12 bg-gradient-to-b from-white to-transparent"></div>
             </div>
@@ -262,7 +264,7 @@
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
                 <div class="md:col-span-5 reveal-up">
                     <h2 class="text-xs font-mono text-gray-500 tracking-widest uppercase mb-4">/ About Me</h2>
-                    <h3 class="font-serif text-4xl md:text-6xl leading-tight text-white">
+                    <h3 class="font-serif text-3xl sm:text-4xl md:text-6xl leading-tight text-white">
                         Crafting <br> <span class="italic text-gray-400">digital experiences</span>
                     </h3>
                 </div>
@@ -422,24 +424,24 @@
                     </div>
 
                     <!-- List Item -->
-                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-blue-400 to-blue-600">
-                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Mastering React</h4>
-                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    <div class="list-item group relative flex justify-between items-center py-6 md:py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-blue-400 to-blue-600">
+                        <h4 class="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Mastering React</h4>
+                        <i data-lucide="arrow-up-right" class="w-6 h-6 md:w-8 md:h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
                     </div>
                     <!-- List Item -->
-                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-yellow-400 to-orange-500">
-                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Advanced JavaScript</h4>
-                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    <div class="list-item group relative flex justify-between items-center py-6 md:py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-yellow-400 to-orange-500">
+                        <h4 class="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Advanced JavaScript</h4>
+                        <i data-lucide="arrow-up-right" class="w-6 h-6 md:w-8 md:h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
                     </div>
                     <!-- List Item -->
-                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-purple-400 to-pink-500">
-                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">UI/UX & CSS Mastery</h4>
-                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    <div class="list-item group relative flex justify-between items-center py-6 md:py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-purple-400 to-pink-500">
+                        <h4 class="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">UI/UX & CSS Mastery</h4>
+                        <i data-lucide="arrow-up-right" class="w-6 h-6 md:w-8 md:h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
                     </div>
                     <!-- List Item -->
-                    <div class="list-item group relative flex justify-between items-center py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-green-400 to-emerald-600">
-                        <h4 class="text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Building in Public (X)</h4>
-                        <i data-lucide="arrow-up-right" class="w-8 h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
+                    <div class="list-item group relative flex justify-between items-center py-6 md:py-8 border-b border-black/10 cursor-pointer reveal-up" data-color="from-green-400 to-emerald-600">
+                        <h4 class="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-outline group-hover:text-black transition-colors" style="-webkit-text-stroke: 1px rgba(0,0,0,0.2);">Building in Public (X)</h4>
+                        <i data-lucide="arrow-up-right" class="w-6 h-6 md:w-8 md:h-8 opacity-0 group-hover:opacity-100 transform group-hover:translate-x-2 -translate-y-2 transition-all"></i>
                     </div>
                 </div>
             </div>
@@ -453,12 +455,12 @@
                     <span class="text-sm font-mono text-gray-300">Available for New Projects</span>
                 </div>
                 
-                <h2 class="text-5xl md:text-8xl font-display font-black leading-tight mb-8">
+                <h2 class="text-4xl sm:text-5xl md:text-8xl font-display font-black leading-tight mb-8">
                     HAVE A PROJECT<br>
                     <span class="text-outline">IN MIND?</span>
                 </h2>
                 
-                <p class="text-gray-400 max-w-lg mb-12 text-lg">
+                <p class="text-gray-400 max-w-lg mb-12 text-base md:text-lg">
                     Together, we can create something clear, impactful, and performance-driven. Let's collaborate.
                 </p>
                 
